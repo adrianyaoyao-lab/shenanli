@@ -265,9 +265,10 @@ export default function TechnologyPage() {
             </FadeIn>
           </div>
         </section>
-      </main>
+        </main>
 
-      <Footer translations={currentMessages} locale={locale} />
-    </NextIntlClientProvider>
+        <Footer translations={currentMessages} locale={locale} />
+      </NextIntlClientProvider>
+    </>
   );
 }
