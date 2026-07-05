@@ -72,7 +72,7 @@ export function IndustryApplications({ translations, locale }: IndustryApplicati
         {/* Industries Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {industries.map((industry, index) => {
-            const data = translations.industries[industry.key as keyof typeof translations.industries];
+            const data = (translations.industries as Record<string, {title?: string; desc?: string}>)[industry.key];
             const Icon = industry.icon;
             const isLarge = index === 0 || index === 4;
 
