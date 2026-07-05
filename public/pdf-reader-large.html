@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF Reader - Full Width</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'></script>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #333; color: white; }
+    #container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    canvas { border: 2px solid #666; background: white; width: 800px; height: auto; }
+    .status { padding: 10px; text-align: center; background: #222; position: fixed; top: 0; left: 0; right: 0; }
+    .nav { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); background: #222; padding: 10px; border-radius: 5px; display: flex; gap: 10px; }
+    button { padding: 5px 15px; cursor: pointer; }
+    #pageContent { margin-top: 50px; }
+  </style>
+</head>
+<body>
+  <div class='status' id='status'>Loading...</div>
+  <div id='pageContent'>
+    <canvas id='displayCanvas'></canvas>
+  </div>
+  <div class='nav'>
+    <button onclick='prevPage()'>Prev</button>
+    <span id='pageNum'>1 / 15</span>
+    <button onclick='nextPage()'>Next</button>
+  </div>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    let pdfDoc = null;
+    let currentPage = 1;
+    let pages = [];
+    
+    async function init() {
+      try {
+        pdfDoc = await pdfjsLib.getDocument('/sse-company-intro.pdf').promise;
+        document.getElementById('status').textContent = 'PDF loaded. Total pages: ' + pdfDoc.numPages;
+        await renderPage(1);
+      } catch (e) {
+        document.getElementById('status').textContent = 'Error: ' + e.message;
+      }
+    }
+    
+    async function renderPage(num) {
+      if (!pdfDoc || num < 1 || num > pdfDoc.numPages) return;
+      
+      const page = await pdfDoc.getPage(num);
+      const scale = 2.5;
+      const viewport = page.getViewport({ scale });
+      
+      const canvas = document.getElementById('displayCanvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      
+      await page.render({
+        canvasContext: ctx,
+        viewport: viewport
+      }).promise;
+      
+      currentPage = num;
+      document.getElementById('pageNum').textContent = num + ' / ' + pdfDoc.numPages;
+    }
+    
+    function prevPage() { renderPage(currentPage - 1); }
+    function nextPage() { renderPage(currentPage + 1); }
+    
+    init();
+  </script>
+</body>
+</html>

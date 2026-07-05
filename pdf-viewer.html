@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF Viewer - SSE Company Introduction</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'></script>
+  <style>
+    body { margin: 0; padding: 20px; background: #333; font-family: Arial, sans-serif; }
+    #controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    #viewer { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    canvas { border: 2px solid #666; background: white; }
+    .page-info { color: white; font-size: 18px; }
+    #pageInput { width: 60px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div id='controls'>
+    <button onclick='prevPage()'>Previous</button>
+    <input type='number' id='pageInput' value='1' min='1' onchange='goToPage(this.value)'>
+    <span class='page-info'>of <span id='totalPages'>-</span></span>
+    <button onclick='nextPage()'>Next</button>
+    <button onclick='exportAllText()' style='background: #4CAF50; color: white;'>Export All Text</button>
+  </div>
+  <div id='viewer'></div>
+  <div id='extractedText' style='display:none; white-space: pre-wrap; padding: 20px; background: white; margin-top: 20px; color: black;'></div>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    window.pdfDoc = null;
+    window.allText = [];
+    
+    pdfjsLib.getDocument('/sse-company-intro.pdf').promise.then(pdf => {
+      window.pdfDoc = pdf;
+      document.getElementById('totalPages').textContent = pdf.numPages;
+      document.getElementById('pageInput').max = pdf.numPages;
+      console.log('PDF loaded, pages:', pdf.numPages);
+      renderPage(1);
+    }).catch(err => {
+      console.error('Error loading PDF:', err);
+    });
+    
+    async function renderPage(num) {
+      if (!window.pdfDoc) return;
+      const page = await window.pdfDoc.getPage(num);
+      const scale = 1.5;
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      await page.render({ canvasContext: ctx, viewport }).promise;
+      document.getElementById('viewer').innerHTML = '';
+      document.getElementById('viewer').appendChild(canvas);
+      document.getElementById('pageInput').value = num;
+      window.currentPage = num;
+      
+      // Extract text from this page
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map(item => item.str).join(' ');
+      window.allText[num] = pageText;
+      console.log('Page', num, 'text length:', pageText.length);
+    }
+    
+    function prevPage() {
+      if (window.currentPage > 1) renderPage(window.currentPage - 1);
+    }
+    
+    function nextPage() {
+      if (window.pdfDoc && window.currentPage < window.pdfDoc.numPages) {
+        renderPage(window.currentPage + 1);
+      }
+    }
+    
+    function goToPage(num) {
+      num = parseInt(num);
+      if (window.pdfDoc && num >= 1 && num <= window.pdfDoc.numPages) {
+        renderPage(num);
+      }
+    }
+    
+    async function exportAllText() {
+      if (!window.pdfDoc) return;
+      const allText = [];
+      for (let i = 1; i <= window.pdfDoc.numPages; i++) {
+        const page = await window.pdfDoc.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => item.str).join(' ');
+        allText.push('=== Page ' + i + ' ===
+' + pageText);
+      }
+      const result = allText.join('
+
+');
+      document.getElementById('extractedText').style.display = 'block';
+      document.getElementById('extractedText').textContent = result;
+      console.log(result);
+      // Copy to clipboard
+      navigator.clipboard.writeText(result);
+      alert('All text extracted! Copied to clipboard and shown below.');
+    }
+    
+    window.renderPage = renderPage;
+    window.prevPage = prevPage;
+    window.nextPage = nextPage;
+    window.goToPage = goToPage;
+    window.exportAllText = exportAllText;
+  </script>
+</body>
+</html>

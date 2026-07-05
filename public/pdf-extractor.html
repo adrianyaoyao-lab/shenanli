@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF Text Extractor</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'></script>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #1a1a1a; color: white; }
+    #status { padding: 10px; margin-bottom: 20px; background: #333; border-radius: 5px; }
+    #output { white-space: pre-wrap; background: #222; padding: 20px; border-radius: 5px; max-height: 80vh; overflow-y: auto; font-size: 12px; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <div id='status'>Loading PDF...</div>
+  <div id='output'></div>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    
+    async function extractText() {
+      try {
+        const status = document.getElementById('status');
+        const output = document.getElementById('output');
+        
+        status.textContent = 'Fetching PDF...';
+        const pdf = await pdfjsLib.getDocument('/sse-company-intro.pdf').promise;
+        status.textContent = 'PDF loaded. Total pages: ' + pdf.numPages + '. Extracting text...';
+        
+        let allText = '';
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          const text = content.items.map(item => item.str).join(' ');
+          allText += '=== PAGE ' + i + ' ===
+' + text + '
+
+';
+          status.textContent = 'Extracting page ' + i + ' of ' + pdf.numPages + '...';
+        }
+        
+        output.textContent = allText;
+        status.textContent = 'Extraction complete!';
+        
+        // Save to localStorage
+        localStorage.setItem('pdfText', allText);
+        console.log('ALL_TEXT_START');
+        console.log(allText);
+        console.log('ALL_TEXT_END');
+      } catch (e) {
+        document.getElementById('status').textContent = 'Error: ' + e.message;
+        console.error(e);
+      }
+    }
+    
+    extractText();
+  </script>
+</body>
+</html>

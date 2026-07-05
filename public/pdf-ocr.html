@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF Reader with OCR</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #1a1a1a; color: white; }
+    #status { padding: 10px; text-align: center; background: #333; margin-bottom: 20px; }
+    #container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    canvas { border: 2px solid #666; background: white; }
+    #extractedText { width: 100%; max-width: 800px; background: #222; padding: 20px; white-space: pre-wrap; font-size: 14px; max-height: 400px; overflow-y: auto; }
+    .controls { position: fixed; top: 50px; right: 10px; background: #333; padding: 10px; border-radius: 5px; }
+    button { padding: 8px 16px; margin: 2px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id='status'>Loading PDF and OCR engine...</div>
+  <div class='controls'>
+    <button onclick='extractAllText()'>Extract All Text (OCR)</button>
+  </div>
+  <div id='container'>
+    <canvas id='displayCanvas' width='800' height='1100'></canvas>
+  </div>
+  <div id='extractedText'></div>
+  
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    let pdfDoc = null;
+    let currentPage = 1;
+    
+    async function init() {
+      try {
+        pdfDoc = await pdfjsLib.getDocument('/sse-company-intro.pdf').promise;
+        document.getElementById('status').textContent = 'PDF loaded. Total pages: ' + pdfDoc.numPages + '. Loading OCR...';
+        await Tesseract.init();
+        document.getElementById('status').textContent = 'Ready. Total pages: ' + pdfDoc.numPages + '. Click "Extract All Text" to extract content.';
+        await renderPage(1);
+      } catch (e) {
+        document.getElementById('status').textContent = 'Error: ' + e.message;
+        console.error(e);
+      }
+    }
+    
+    async function renderPage(num) {
+      if (!pdfDoc || num < 1 || num > pdfDoc.numPages) return;
+      
+      const page = await pdfDoc.getPage(num);
+      const scale = 2;
+      const viewport = page.getViewport({ scale });
+      
+      const canvas = document.getElementById('displayCanvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      
+      await page.render({
+        canvasContext: ctx,
+        viewport: viewport
+      }).promise;
+      
+      currentPage = num;
+      document.getElementById('status').textContent = 'Page ' + num + ' of ' + pdfDoc.numPages + '. Click arrows to navigate.';
+    }
+    
+    async function extractAllText() {
+      if (!pdfDoc) return;
+      const status = document.getElementById('status');
+      const output = document.getElementById('extractedText');
+      status.textContent = 'Starting OCR extraction...';
+      output.textContent = '';
+      
+      let allText = '';
+      const canvas = document.createElement('canvas');
+      
+      for (let i = 1; i <= pdfDoc.numPages; i++) {
+        const page = await pdfDoc.getPage(i);
+        const scale = 2;
+        const viewport = page.getViewport({ scale });
+        
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const ctx = canvas.getContext('2d');
+        
+        await page.render({
+          canvasContext: ctx,
+          viewport: viewport
+        }).promise;
+        
+        status.textContent = 'OCR on page ' + i + ' of ' + pdfDoc.numPages + '...';
+        
+        try {
+          const result = await Tesseract.recognize(canvas, 'eng+chi_sim', {
+            logger: m => { if (m.status === 'recognizing text') console.log('OCR progress:', m.progress); }
+          });
+          allText += '=== PAGE ' + i + ' ===
+' + result.data.text + '
+
+';
+          console.log('Page', i, 'extracted');
+        } catch (e) {
+          console.error('OCR error on page', i, ':', e.message);
+        }
+      }
+      
+      output.textContent = allText;
+      status.textContent = 'Extraction complete!';
+      console.log('ALL_TEXT_START');
+      console.log(allText);
+      console.log('ALL_TEXT_END');
+    }
+    
+    window.renderPage = renderPage;
+    window.extractAllText = extractAllText;
+    init();
+  </script>
+</body>
+</html>

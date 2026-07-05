@@ -1,0 +1,167 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "technology": "Technology",
+    "industries": "Industries",
+    "news": "News",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Breaking Energy Limits, Reshaping Electric Boundaries",
+    "titleLine1": "Breaking Energy Limits",
+    "titleLine2": "Reshaping Electric Boundaries",
+    "subtitle": "High energy density, ultra-safe solid-state battery solutions",
+    "explore": "Explore Technology",
+    "contact": "Contact Us",
+    "keywords": {
+      "lowAltitude": "Low-Altitude Flight",
+      "embodiedAI": "Embodied AI",
+      "deepSea": "Deep-Sea Equipment"
+    },
+    "stats": {
+      "energyDensity": "Wh/kg",
+      "cycleLife": "Cycle Life (Cycles)",
+      "patents": "Authorized Patents"
+    }
+  },
+  "about": {
+    "companyTitle": "Swift Safe Energy",
+    "companyDesc": "Swift Safe Energy (Shenzhen) Technology Co., Ltd. is a new energy technology enterprise dedicated to R&D and industrialization of high energy density, high safety advanced battery technology. Leveraging technical expertise from Beijing Institute of Technology and Shenzhen Automotive Research Institute, we have built a core technology system covering materials, cells, and systems, focused on breaking key bottlenecks in safety, reliability, and engineering applications of high-energy-density batteries."
+  },
+  "advantages": {
+    "title": "Core Advantages",
+    "subtitle": "Why choose our solid-state batteries",
+    "safety": {
+      "title": "Ultra Safety",
+      "desc": "Solid-state technology eliminates liquid electrolyte, completely removing fire and explosion risks"
+    },
+    "energy": {
+      "title": "High Energy Density",
+      "desc": "Up to 570+ Wh/kg - breaking energy density limits for boundary applications"
+    },
+    "charging": {
+      "title": "Fast Charging",
+      "desc": "Advanced materials with intelligent thermal management for rapid charging"
+    },
+    "lifecycle": {
+      "title": "Long Cycle Life",
+      "desc": "Over 500 charge cycles with minimal capacity degradation"
+    }
+  },
+  "products": {
+    "title": "CloudChi Series",
+    "subtitle": "Mission-defined products for demanding boundary applications",
+    "viewDetails": "View Details",
+    "power": {
+      "title": "CloudChi 360-P",
+      "desc": "High-power platform for quadruped robots and multi-rotor drones requiring instant power response",
+      "specs": "360 Wh/kg • 2C/5C Discharge • Quadruped / Drone"
+    },
+    "storage": {
+      "title": "CloudChi 400-E",
+      "desc": "High-energy platform for fixed-wing drones, AUVs, and inspection robots",
+      "specs": "400 Wh/kg • 1C/3C Discharge • Long Endurance"
+    },
+    "drone": {
+      "title": "CloudChi 460-X",
+      "desc": "Ultra-high energy platform for extreme endurance or 10C high-power applications",
+      "specs": "460+ Wh/kg • 10C Peak • Extreme Mission"
+    },
+    "consumer": {
+      "title": "Module & System",
+      "desc": "Complete battery solutions from cell to deployable unit with intelligent BMS",
+      "specs": "400-800V Platform • Smart BMS • Modular Design"
+    }
+  },
+  "technology": {
+    "title": "Technology Platform",
+    "subtitle": "Closed-loop capability from materials to systems",
+    "platform": "Materials",
+    "platformDesc": "Silicon-carbon/lithium metal anodes, ultra-high nickel cathodes, high-performance solid electrolytes",
+    "materials": "Design & Process",
+    "materialsDesc": "High-loading dry electrode, low-expansion silicon anode, multi-dimensional in-situ curing",
+    "patents": "Patents & IP",
+    "patentsDesc": "29+ invention patents, 50+ research papers, 10+ patent authorizations",
+    "team": "Expert Team",
+    "teamDesc": "Academician-led team with Beijing Institute of Technology collaboration"
+  },
+  "industries": {
+    "title": "Industry Applications",
+    "subtitle": "Breaking energy limits to power low-altitude, deep-sea, and embodied AI innovation",
+    "ev": {
+      "title": "Low-Altitude Flight",
+      "desc": "UAVs, eVTOLs, and multi-rotor drones requiring extended range and heavier payloads"
+    },
+    "drone": {
+      "title": "Embodied AI",
+      "desc": "Humanoid robots and embodied AI systems demanding consistent high performance"
+    },
+    "robot": {
+      "title": "Quadruped Robots",
+      "desc": "High-power density solutions for legged robots in inspection and exploration"
+    },
+    "storage": {
+      "title": "Deep-Sea Equipment",
+      "desc": "Specially designed batteries for AUVs and underwater robots in extreme conditions"
+    },
+    "electronics": {
+      "title": "Special Equipment",
+      "desc": "High-impact, wide-temperature-range battery systems for special purpose equipment"
+    }
+  },
+  "partners": {
+    "title": "Partners & Clients",
+    "subtitle": "Collaborating with industry leaders to advance energy technology"
+  },
+  "news": {
+    "title": "Latest Updates",
+    "subtitle": "Stay informed about our latest innovations",
+    "readMore": "Read More",
+    "viewAll": "View All News"
+  },
+  "cta": {
+    "title": "Ready to Break Energy Limits?",
+    "subtitle": "Partner with us for next-generation battery solutions for boundary applications",
+    "button": "Contact Us"
+  },
+  "footer": {
+    "description": "Breaking battery performance limits to enable electrification of boundary scenarios.",
+    "quickLinks": "Quick Links",
+    "products": "Products",
+    "technology": "Technology",
+    "about": "About",
+    "contact": "Contact",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "© 2024 Swift Safe Energy (Shenzhen) Technology Co., Ltd. All rights reserved."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Let's discuss how our batteries can power your next innovation",
+    "name": "Name",
+    "email": "Email",
+    "company": "Company",
+    "message": "Message",
+    "submit": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent successfully! We'll respond within 24 hours.",
+    "error": "Failed to send message. Please try again.",
+    "address": "Address",
+    "phone": "Phone",
+    "hours": "Business Hours"
+  },
+  "timeline": {
+    "title": "Our Journey",
+    "subtitle": "Milestones in our pursuit of energy storage innovation",
+    "items": {
+      "2020": "Company Founded",
+      "2021": "First Prototype",
+      "2022": "Technology Breakthrough",
+      "2023": "Mass Production Ready",
+      "2024": "Global Expansion"
+    }
+  }
+}

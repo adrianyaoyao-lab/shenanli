@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF Reader - SSE Company</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'></script>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #1a1a1a; color: white; }
+    #container { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    canvas { border: 1px solid #333; background: white; max-width: 100%; }
+    .controls { position: fixed; top: 10px; right: 10px; background: #333; padding: 10px; border-radius: 5px; }
+    .status { padding: 10px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class='status' id='status'>Loading...</div>
+  <div id='container'></div>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    
+    async function renderAllPages() {
+      const container = document.getElementById('container');
+      const status = document.getElementById('status');
+      
+      try {
+        const pdf = await pdfjsLib.getDocument('/sse-company-intro.pdf').promise;
+        status.textContent = 'PDF loaded. Rendering pages...';
+        
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const scale = 2;
+          const viewport = page.getViewport({ scale });
+          
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.id = 'page-' + i;
+          const ctx = canvas.getContext('2d');
+          
+          await page.render({
+            canvasContext: ctx,
+            viewport: viewport
+          }).promise;
+          
+          container.appendChild(canvas);
+          status.textContent = 'Rendered page ' + i + ' of ' + pdf.numPages;
+        }
+        
+        status.textContent = 'Complete! All ' + pdf.numPages + ' pages rendered.';
+        console.log('PDF_RENDER_COMPLETE');
+      } catch (e) {
+        status.textContent = 'Error: ' + e.message;
+        console.error(e);
+      }
+    }
+    
+    renderAllPages();
+  </script>
+</body>
+</html>
