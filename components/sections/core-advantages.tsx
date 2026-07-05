@@ -108,7 +108,7 @@ export function CoreAdvantages({ translations }: CoreAdvantagesProps) {
         {/* Advantages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {advantages.map((advantage, index) => {
-            const data = translations.advantages[advantage.key as keyof typeof translations.advantages];
+            const data = (translations.advantages as Record<string, {title?: string; desc?: string}>)[advantage.key];
             const Icon = advantage.icon;
 
             return (
