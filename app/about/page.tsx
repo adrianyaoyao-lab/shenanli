@@ -8,13 +8,11 @@ import { FadeIn } from "@/components/animated/fade-in";
 import { ScaleIn } from "@/components/animated/scale-in";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { CursorFollower } from "@/components/ui/animations";
-import { Timeline, Users, Award, Globe, Beaker, ArrowRight, Building2, Target, Eye, Lightbulb, Heart } from "lucide-react";
+import { Calendar, Users, Award, Globe, ArrowRight, Building2, Target, Eye, Lightbulb, Heart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-
 import en from "@/messages/en.json";
 import zh from "@/messages/zh.json";
 
@@ -186,7 +184,7 @@ export default function AboutPage() {
             <div className="container-padding mx-auto">
               <FadeIn className="text-center max-w-2xl mx-auto mb-16">
                 <span className="inline-flex items-center gap-2 text-sm font-medium text-accent mb-4 tracking-wider uppercase">
-                  <Timeline className="w-4 h-4" />
+                  <Calendar className="w-4 h-4" />
                   {locale === "zh" ? "发展历程" : "Journey"}
                 </span>
                 <h2 className="text-3xl md:text-4xl font-heading font-bold text-white">
