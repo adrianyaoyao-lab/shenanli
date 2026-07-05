@@ -185,10 +185,10 @@ export default function ProductsPage() {
                         {/* Content */}
                         <div className={isEven ? '' : 'lg:order-1'}>
                           <h2 className="text-2xl md:text-3xl font-heading font-bold text-white mb-4">
-                            {currentMessages.products[product.key as keyof typeof currentMessages.products]?.title}
+                            {(currentMessages.products as Record<string, {title?: string; desc?: string}>)[product.key]?.title}
                           </h2>
                           <p className="text-lg text-white/60 mb-8">
-                            {currentMessages.products[product.key as keyof typeof currentMessages.products]?.desc}
+                            {(currentMessages.products as Record<string, {title?: string; desc?: string}>)[product.key]?.desc}
                           </p>
 
                           {/* Specs Grid */}
