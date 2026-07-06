@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -66,18 +65,16 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, glow = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : motion.button;
+    const Comp = asChild ? Slot : "button";
 
     return (
       <Comp
         className={cn(
           buttonVariants({ variant, size, className }),
-          glow && "animate-pulse-glow"
+          glow && "animate-pulse-glow",
+          !asChild && "hover:scale-[1.02] active:scale-[0.98] transition-transform"
         )}
         ref={ref}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        transition={{ duration: 0.2 }}
         {...props}
       />
     );
@@ -112,7 +109,7 @@ const GlowButton = React.forwardRef<HTMLButtonElement, GlowButtonProps>(
       : "bg-white/10 text-white border border-white/20 hover:bg-white/15 hover:border-white/30";
 
     return (
-      <motion.button
+      <button
         ref={ref}
         className={cn(
           "relative inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 disabled:pointer-events-none disabled:opacity-50",
@@ -121,14 +118,12 @@ const GlowButton = React.forwardRef<HTMLButtonElement, GlowButtonProps>(
           glowStyles[intensity],
           className
         )}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
         {...props}
       >
         {/* Glow pulse effect */}
         <span className="absolute inset-0 rounded-lg animate-pulse-glow opacity-30 bg-accent" />
         <span className="relative z-10">{children}</span>
-      </motion.button>
+      </button>
     );
   }
 );
