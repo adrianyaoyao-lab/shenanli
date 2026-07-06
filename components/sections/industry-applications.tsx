@@ -87,7 +87,7 @@ export function IndustryApplications({ translations, locale }: IndustryApplicati
                     <div className="relative aspect-[16/10]">
                       <Image
                         src={industry.image}
-                        alt={data.title}
+                        alt={data?.title ?? ''}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                       />
