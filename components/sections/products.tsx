@@ -95,7 +95,7 @@ export function Products({ translations, locale }: ProductsProps) {
         {/* Products Grid - Bento style layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {products.map((product, index) => {
-            const data = translations.products[product.key as keyof typeof translations.products];
+            const data = (translations.products as Record<string, {title?: string; desc?: string; specs?: string}>)[product.key];
             const Icon = product.icon;
             const isLarge = index === 0 || index === 3;
 
@@ -126,7 +126,7 @@ export function Products({ translations, locale }: ProductsProps) {
                     )}
                   >
                     {/* Background Image with Parallax */}
-                    <ProductImage src={product.image} alt={data.title} />
+                    <ProductImage src={product.image} alt={data?.title ?? ''} />
 
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-transparent" />
