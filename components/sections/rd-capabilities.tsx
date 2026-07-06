@@ -37,7 +37,7 @@ const capabilities = [
     color: "accent",
     gradient: "from-accent/20 to-transparent",
     stats: "4",
-    statsLabel: locale => locale === "zh" ? "材料体系" : "Material Systems",
+    statsLabel: (locale: string) => locale === "zh" ? "材料体系" : "Material Systems",
   },
   {
     key: "materials",
@@ -45,7 +45,7 @@ const capabilities = [
     color: "cyan",
     gradient: "from-cyan/20 to-transparent",
     stats: "50+",
-    statsLabel: locale => locale === "zh" ? "学术论文" : "Papers",
+    statsLabel: (locale: string) => locale === "zh" ? "学术论文" : "Papers",
   },
   {
     key: "patents",
@@ -53,7 +53,7 @@ const capabilities = [
     color: "purple",
     gradient: "from-purple-500/20 to-transparent",
     stats: "29+",
-    statsLabel: locale => locale === "zh" ? "发明专利" : "Patents",
+    statsLabel: (locale: string) => locale === "zh" ? "发明专利" : "Patents",
   },
   {
     key: "team",
@@ -61,7 +61,7 @@ const capabilities = [
     color: "green",
     gradient: "from-emerald-500/20 to-transparent",
     stats: "1",
-    statsLabel: locale => locale === "zh" ? "院士团队" : "Academician Team",
+    statsLabel: (locale: string) => locale === "zh" ? "院士团队" : "Academician Team",
   },
 ];
 
